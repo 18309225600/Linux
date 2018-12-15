@@ -1,0 +1,43 @@
+=======================zookeeper集群搭建===========================
+
+1.下载zookeeper安装包
+2.解压到安装目录（java软件不用编译了   只要有jdk环境即可）
+3.进入zookeeper的配置文件目录zookeeper/conf/
+mv zoo_sample.cfg  zoo.cfg
+4.编辑位置文件 vi zoo.cfg
+其他超时时间以及client端口不用改，需要修改dataDir  因为/tmp目录不安全
+dataDir=/root/zkdata
+在文件末尾添加集群信息即可
+server.1=192.168.85.135:2888:3888
+server.2=192.168.85.136:2888:3888
+server.3=192.168.85.137:2888:3888
+
+其中2888是leader和follower通信端口   3888是投票端口
+
+5.创建zkdata目录以及myid文件
+mkdir /root/zkdata
+echo 1>/root/zkdata/myid
+
+
+6.配置其他两台==========此处可以用脚本自动配置
+7.启动zk
+切换目录到bin目录下
+./zkServer.sh start
+
+=========三台都启动后
+8.检查状态
+切换目录到bin目录下
+./zkServer.sh status
+
+如果显示  
+Using config: /usr/local/apps/zookeeper-3.4.5/bin/../conf/zoo.cfg
+Mode: follower
+
+或者
+Using config: /usr/local/apps/zookeeper-3.4.5/bin/../conf/zoo.cfg
+Mode: leader
+表示集群通信正常
+
+否则表示集群存在问题
+   ===========注意检查防火墙===============
+firewalld 和iptables

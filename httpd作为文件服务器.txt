@@ -1,0 +1,19 @@
+======================做一个文件服务器=======================
+
+
+1.安装httpd
+2.修改httpd配置文件   /etc/httpd/conf/httpd.conf
+具体修改内容看配置文件说明，不用修改也可以，默认的文件目录指向 /var/www/html
+
+3.启动httpd      
+service httpd start
+4. 关闭防火墙
+systemctl stop firewalld
+chkconfig firewall off
+
+
+5.进入 /var/www/html
+创建一个soft目录
+
+
+6.通过浏览器访问 ip/soft就可以看到文件列表了
